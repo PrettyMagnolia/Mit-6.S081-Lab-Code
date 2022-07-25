@@ -1,0 +1,3 @@
+1.page0 应该主要是应用程序的代码段和数据段; 而 page2 即对应着用户栈; 中间的 page1 应该是 guard page, 无物理地址实际映射, 用于溢出检测.
+2.三个 return -1 的条件分别为 srcva >= p->sz, srcva+len >= p->sz 和 srcva+len < srcva. 很显然, 此处第三个条件主要是进行溢出检测, 防止无符号整数上溢. 由于 srcva 和 len 均为 uint64 类型的变量, 当 srcva 小于 p->sz 但是 len 为一个极大的数时, 如 0xffff...ffff(即对应 -1), 由于无符号整数溢出便可以满足 srcva+len < p->sz 这一条件, 但实际上复制了大量内存. 但通过 srcva+len < srcva 这一判断条件能够检测出溢出.
+

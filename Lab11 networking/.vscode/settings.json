@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "user.h": "c",
+        "types.h": "c",
+        "proc.h": "c",
+        "buf.h": "c"
+    }
+}
