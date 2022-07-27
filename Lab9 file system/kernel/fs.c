@@ -405,16 +405,16 @@ bmap(struct inode *ip, uint bn)
   if(bn < NDINDIRECT) {
     if((addr = ip->addrs[NDIRECT+1]) == 0)
       ip->addrs[NDIRECT+1] = addr = balloc(ip->dev);
-      // 通过一级索引，找到下一级索引
-      bp = bread(ip->dev, addr);
-      a = (uint*)bp->data;
-      if((addr = a[bn/NINDIRECT]) == 0) {
-        a[bn/NINDIRECT] = addr = balloc(ip->dev);
-        log_write(bp);
+    // 通过一级索引，找到下一级索引
+    bp = bread(ip->dev, addr);
+    a = (uint*)bp->data;
+    if((addr = a[bn/NINDIRECT]) == 0) {
+      a[bn/NINDIRECT] = addr = balloc(ip->dev);
+      log_write(bp);
     }
     brelse(bp);
     // 重复上面的代码，实现二级索引
-	  bp = bread(ip->dev, addr);
+	bp = bread(ip->dev, addr);
     a = (uint*)bp->data;
     if ((addr = a[bn%NINDIRECT]) == 0) {
       a[bn%NINDIRECT] = addr = balloc(ip->dev);
