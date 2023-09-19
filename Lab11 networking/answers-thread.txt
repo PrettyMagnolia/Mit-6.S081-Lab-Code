@@ -1,0 +1,1 @@
+Because the Caller register is saved in thread_schedule's stack by the c compiler.
